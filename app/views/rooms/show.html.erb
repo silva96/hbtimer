@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+<div class="columns">
+  <div class="column">
+    First column
+  </div>
+  <div class="column">
+    Second column
+  </div>
+  <div class="column">
+    Third column
+  </div>
+  <div class="column">
+    Fourth column
+  </div>
+</div>
+
+
+<p>
+  <strong>Code:</strong>
+  <%= @room.code %>
+</p>
+
+<%= link_to 'Edit', edit_room_path(@room) %> |
+<%= link_to 'Back', rooms_path %>

@@ -5,6 +5,8 @@ application up and running.
 
 Things you may want to cover:
 
+`export RUBYOPT='-W:no-deprecated'`
+
 * Ruby version
 
 * System dependencies
