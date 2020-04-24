@@ -1,4 +1,4 @@
-<div class="columns is-mobile room-header">
+<div class="columns is-mobile room-header is-fullwidth is-gapless">
   <div class="column is-one-third has-text-centered">
     <p><%= @character.name %></p>
     <small>Logged in as</small>
@@ -12,7 +12,7 @@
     <small>Room admin</small>
   </div>
 </div>
-<div class="columns is-mobile self-timers unselectable" data-controller="self-timers">
+<div class="columns is-mobile self-timers unselectable is-gapless" data-controller="self-timers">
   <div class="column is-one-third has-text-centered my-amp" data-action="click->self-timers#amped">
     <p><span data-target="self-timers.amp">--</span><small class="seconds">s</small></p>
     <small>AMP</small>
