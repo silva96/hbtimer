@@ -6,14 +6,58 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 @import '@fortawesome/fontawesome-free/scss/brands';
 @import '@fortawesome/fontawesome-free/scss/v4-shims';
 
-
-.hb-title {
+body {
   min-height : 100vh;
   background: #C33764;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom, #1D2671, #C33764);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #1D2671, #C33764); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-  .title, .subtitle, .label {
+.hb-title {
+  .title, .subtitle, .label, p {
     color: white;
   }
+}
+.room-header {
+  p {
+    color: white;
+  }
+  small {
+    color: #999999;
+    font-size: 0.875em;
+  }
+}
+
+.self-timers {
+  .column {
+    cursor: pointer;
+    color: white;
+    p {
+      font-size: 7vh;
+    }
+    p.seconds {
+      font-size: 0.5vh;
+    }
+    small {
+      font-size: 2vh;
+    }
+    &.my-amp {
+      background-color: #0aecec;
+    }
+    &.my-hp {
+      background-color: #f62c2c;
+    }
+    &.my-mp {
+      background-color: #0525a3;
+    }
+  }
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

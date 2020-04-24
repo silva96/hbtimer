@@ -4,32 +4,50 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [:show]
 
   def index
-    @room = Room.new
+    @character_name = session[:character_name]
+    @room = Room.new(code: session[:room_code])
   end
 
-  def show; end
+  def show
+    if session[:character_name].nil? || session[:room_code].nil?
+      redirect_to root_path
+      return
+    end
+
+    @character = @room.characters.find_by(name: session[:character_name])
+    @character.update(last_ping_at: Time.zone.now)
+    @admin = @room.admin
+  rescue StandardError
+    redirect_to root_path
+  end
 
   # POST /rooms
   def create
-    @room = Room.new(room_params)
-
-    respond_to do |format|
-      if @room.save
-        format.html { redirect_to @room, notice: 'Room was successfully created.' }
-      else
-        format.html { render :new }
-      end
+    room_parameters = room_params.slice(:code)
+    character_params = room_params.slice(:name)
+    @room = Room.create_with(room_parameters)
+                .find_or_create_by(code: room_parameters.fetch(:code))
+    if @room.persisted?
+      character = @room.characters
+                       .create_with(character_params)
+                       .find_or_create_by(name: character_params.fetch(:name))
+      session[:character_name] = character.name
+      session[:room_code] = @room.code
+      redirect_to room_path
+    else
+      @character_name = character_params.fetch(:name)
+      render :index
     end
   end
 
   private
 
   def set_room
-    @room = Room.find(params[:id])
+    @room = Room.find_by(code: session[:room_code])
   end
 
   # Only allow a list of trusted parameters through.
   def room_params
-    params.require(:room).permit(:code)
+    params.require(:room).permit(:code, :name)
   end
 end

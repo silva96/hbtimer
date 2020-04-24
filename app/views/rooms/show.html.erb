@@ -1,24 +1,28 @@
-<p id="notice"><%= notice %></p>
-<div class="columns">
-  <div class="column">
-    First column
+<div class="columns is-mobile room-header">
+  <div class="column is-one-third has-text-centered">
+    <p><%= @character.name %></p>
+    <small>Logged in as</small>
   </div>
-  <div class="column">
-    Second column
+  <div class="column is-one-third has-text-centered">
+    <p><%= @room.code %></p>
+    <small>Room code</small>
   </div>
-  <div class="column">
-    Third column
-  </div>
-  <div class="column">
-    Fourth column
+  <div class="column is-one-third has-text-centered">
+    <p><%= @admin.name %></p>
+    <small>Room admin</small>
   </div>
 </div>
-
-
-<p>
-  <strong>Code:</strong>
-  <%= @room.code %>
-</p>
-
-<%= link_to 'Edit', edit_room_path(@room) %> |
-<%= link_to 'Back', rooms_path %>
+<div class="columns is-mobile self-timers unselectable" data-controller="self-timers">
+  <div class="column is-one-third has-text-centered my-amp" data-action="click->self-timers#amped">
+    <p><span data-target="self-timers.amp">--</span><small class="seconds">s</small></p>
+    <small>AMP</small>
+  </div>
+  <div class="column is-one-third has-text-centered my-hp" data-action="click->self-timers#hpRegen">
+    <p><span data-target="self-timers.hp">--</span><small class="seconds">s</small></p>
+    <small>HP</small>
+  </div>
+  <div class="column is-one-third has-text-centered my-mp" data-action="click->self-timers#mpRegen">
+    <p><span data-target="self-timers.mp">--</span><small class="seconds">s</small></p>
+    <small>MP</small>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<section class="hero hb-title" data-controller="rooms">
+<section class="hero hb-title">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
@@ -7,27 +7,17 @@
       <h2 class="subtitle">
         Time your Helbreath
       </h2>
-      <form data-action="rooms#join">
-        <div class="field">
-          <label class="label">Character Name</label>
-          <div class="control has-icons-left">
-            <input class="input" type="text" placeholder="the character you are using in-game" data-target="rooms.name">
-            <span class="icon is-small is-left">
-              <i class="fas fa-user"></i>
-            </span>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Room Code</label>
-          <div class="control has-icons-left">
-            <input class="input" type="text" placeholder="type-something-unique" data-target="rooms.code">
-            <span class="icon is-small is-left">
-              <i class="fas fa-house-user"></i>
-            </span>
-          </div>
-        </div>
+      <%= form_with(model: @room, local: true) do |f| %>
+        <%= f.text_field :name, icon_class: 'fas fa-user',
+                         value: @character_name,
+                         label_text: 'Character Name',
+                         placeholder: 'type-something-unique' %>
+        <%= f.text_field :code, icon_class: 'fas fa-house-user',
+                         errors: @room.errors[:code],
+                         label_text: 'Room Code',
+                         placeholder: 'type-something-unique' %>
         <button class="button is-primary is-fullwidth" type="submit">Join!</button>
-      </form>
+      <% end %>
     </div>
   </div>
 </section>
