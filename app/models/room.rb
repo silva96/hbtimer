@@ -5,7 +5,7 @@ class Room < ApplicationRecord
   validates_length_of :code, minimum: 3, maximum: 15
 
   def admin
-    characters.where(last_ping_at: 1.minute.ago..Time.zone.now)
+    characters.logged
               .order(:created_at)
               .first
   end

@@ -35,23 +35,27 @@ body {
     p {
       font-size: 7vh;
     }
-    p.seconds {
-      font-size: 0.5vh;
-    }
     small {
       font-size: 2vh;
     }
-    &.my-amp {
-      background-color: #0aecec;
-    }
-    &.my-hp {
-      background-color: #f62c2c;
-    }
-    &.my-mp {
-      background-color: #0525a3;
-    }
   }
 }
+
+.amp {
+  background-color: #0aecec;
+  color: white
+}
+
+.hp {
+  background-color: #f62c2c;
+  color: white
+}
+
+.mp {
+  background-color: #0525a3;
+  color: white
+}
+
 
 .unselectable {
   -webkit-touch-callout: none;
@@ -60,4 +64,28 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+#characters {
+  .columns {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: -10px;
+    background-color: white;
+    .column {
+      padding: 0.75rem!important;
+      p.time, p.name {
+        font-size: 3vh;
+        small {
+          font-size: 2vh;
+        }
+      }
+      &.amp {
+        p {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+      }
+    }
+  }
 }

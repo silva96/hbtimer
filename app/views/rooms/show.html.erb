@@ -1,4 +1,4 @@
-<div class="columns is-mobile room-header is-fullwidth is-gapless">
+<div class="columns is-mobile room-header is-gapless">
   <div class="column is-one-third has-text-centered">
     <p><%= @character.name %></p>
     <small>Logged in as</small>
@@ -13,16 +13,19 @@
   </div>
 </div>
 <div class="columns is-mobile self-timers unselectable is-gapless" data-controller="self-timers">
-  <div class="column is-one-third has-text-centered my-amp" data-action="click->self-timers#amped">
-    <p><span data-target="self-timers.amp">--</span><small class="seconds">s</small></p>
+  <div class="column is-one-third has-text-centered amp" data-action="click->self-timers#amped">
+    <p><span data-target="self-timers.amp">--</span><small>s</small></p>
     <small>AMP</small>
   </div>
-  <div class="column is-one-third has-text-centered my-hp" data-action="click->self-timers#hpRegen">
-    <p><span data-target="self-timers.hp">--</span><small class="seconds">s</small></p>
+  <div class="column is-one-third has-text-centered hp" data-action="click->self-timers#hpRegen">
+    <p><span data-target="self-timers.hp">--</span><small>s</small></p>
     <small>HP</small>
   </div>
-  <div class="column is-one-third has-text-centered my-mp" data-action="click->self-timers#mpRegen">
-    <p><span data-target="self-timers.mp">--</span><small class="seconds">s</small></p>
+  <div class="column is-one-third has-text-centered mp" data-action="click->self-timers#mpRegen">
+    <p><span data-target="self-timers.mp">--</span><small>s</small></p>
     <small>MP</small>
   </div>
+</div>
+<div id="characters">
+  <%= render partial:'character', collection: @characters, as: :character %>
 </div>

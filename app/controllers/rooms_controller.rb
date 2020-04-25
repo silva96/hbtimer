@@ -16,6 +16,7 @@ class RoomsController < ApplicationController
 
     @character = @room.characters.find_by(name: session[:character_name])
     @character.update(last_ping_at: Time.zone.now)
+    @characters = @room.characters.active + @room.characters.less_active
     @admin = @room.admin
   rescue StandardError
     redirect_to root_path
