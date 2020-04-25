@@ -1,4 +1,4 @@
-<div class="columns is-mobile" data-controller="character">
+<div class="columns is-mobile is-vcentered" data-controller="character">
   <div class="column">
     <p class="time has-text-<%= character.amp_color %>">
       <span  data-target="character.amp"><%= character.amp_time_left %></span><small>s</small>
@@ -7,10 +7,10 @@
   <div class="column is-two-fifths is-clipped has-text-<%= character.enemy? ? 'danger' : 'success' %>">
     <p class="name" data-target="character.name"><%= character.name %></p>
   </div>
-  <div class="column amp has-text-centered" data-action="click->character#ampedEvent">
-    <p>AMP</p>
+  <div class="column amp has-text-centered is-fullheight" data-action="click->character#ampedEvent">
+    <p class="actions">AMP</p>
   </div>
-  <div class="column has-background-danger has-text-centered" data-action="click->character#cancel">
-    <p>X</p>
+  <div class="column has-background-danger has-text-centered is-fullheight" data-action="click->character#cancel">
+    <p class="actions">X</p>
   </div>
 </div>
