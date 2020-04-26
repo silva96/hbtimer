@@ -1,41 +1,38 @@
-import { Controller } from "stimulus"
+import ApplicationController from './application_controller'
 
-export default class extends Controller {
+export default class extends ApplicationController {
   static targets = [ 'amp', 'name']
 
   connect() {
-    let secondsLeft = parseInt(this.ampTarget.innerText)
-    secondsLeft = Number.isNaN(secondsLeft) ? -1 : secondsLeft
-    this.amped(secondsLeft)
+    super.connect();
+    this.reflectAmp()
+  }
+
+  reflectAmp() {
+    const secondsLeft = parseInt(this.ampTarget.innerText)
+    Number.isNaN(secondsLeft) ? this.amped(-1) : this.amped(secondsLeft)
   }
 
   disconnect() {
     this.clearIntervals()
   }
 
-  ampedEvent() {
-    this.amped(60)
-  }
-
-  cancel() {
-    this.amped(-1)
-  }
-
   amped(secondsLeft) {
-    clearInterval(this.ampTimer)
+    this.clearIntervals()
     this.paintClass(secondsLeft)
-    if (secondsLeft < 0) {
+    if (secondsLeft < 0 || Number.isNaN(secondsLeft)) {
       this.ampTarget.innerText = '--'
     }
     else {
       this.ampTarget.innerText = secondsLeft.toString()
     }
     this.ampTimer = setInterval(()=>{
+      secondsLeft = parseInt(this.ampTarget.innerText)
+      if (Number.isNaN(secondsLeft)) { return }
       secondsLeft -= 1
       this.ampTarget.innerText = secondsLeft.toString()
-
+      this.paintClass(secondsLeft)
       if (secondsLeft < 0) {
-        clearInterval(this.ampTimer)
         this.ampTarget.innerText = '--'
       }
     }, 1000)
@@ -58,5 +55,10 @@ export default class extends Controller {
     if (this.ampTimer) {
       clearInterval(this.ampTimer)
     }
+  }
+
+  afterReflex(element, reflex) {
+    super.afterReflex(element, reflex);
+    this.reflectAmp()
   }
 }

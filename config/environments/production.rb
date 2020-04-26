@@ -14,7 +14,6 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
@@ -55,8 +54,21 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.action_controller.perform_caching = true
+  config.action_controller.enable_fragment_cache_logging = false
+
+  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } }
+  config.session_store :cache_store,
+                       key: "_session",
+                       compress: true,
+                       pool_size: 5,
+                       expire_after: 1.year
+
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{2.days.to_i}"
+  }
+
+  config.action_cable.url = "ws://hbtimer.herokuapp.com/cable"
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

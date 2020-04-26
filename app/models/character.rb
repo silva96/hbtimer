@@ -2,6 +2,7 @@
 
 class Character < ApplicationRecord
   belongs_to :room, inverse_of: :characters
+  after_update :broadcast_amp
 
   validates_uniqueness_of :name, scope: :room
 
@@ -32,5 +33,13 @@ class Character < ApplicationRecord
 
   def time_amp
     update(amp_timed_at: Time.zone.now)
+  end
+
+  def broadcast_amp
+    return unless saved_changes.keys.include? 'amp_timed_at'
+
+    RoomsChannel.broadcast_to(
+      room.code, { character: name, amp: amp_time_left }
+    )
   end
 end

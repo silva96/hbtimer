@@ -1,21 +1,36 @@
-import { Controller } from "stimulus"
+import ApplicationController from './application_controller'
 
-export default class extends Controller {
+export default class extends ApplicationController {
   static targets = [ 'amp', 'hp', 'mp']
 
   disconnect() {
     this.clearIntervals()
   }
 
-  amped() {
+  connect() {
+    super.connect();
+    this.reflectAmp()
+  }
+
+  reflectAmp() {
+    const secondsLeft = parseInt(this.ampTarget.innerText)
+    Number.isNaN(secondsLeft) ? this.amped(-1) : this.amped(secondsLeft)
+  }
+
+  amped(secondsLeft) {
     clearInterval(this.ampTimer)
-    let secondsLeft = 60
-    this.ampTarget.innerText = secondsLeft.toString()
+    if (secondsLeft < 0 || Number.isNaN(secondsLeft)) {
+      this.ampTarget.innerText = '--'
+    }
+    else {
+      this.ampTarget.innerText = secondsLeft.toString()
+    }
     this.ampTimer = setInterval(()=>{
+      secondsLeft = parseInt(this.ampTarget.innerText)
+      if (Number.isNaN(secondsLeft)) { return }
       secondsLeft -= 1
       this.ampTarget.innerText = secondsLeft.toString()
       if (secondsLeft < 0) {
-        clearInterval(this.ampTimer)
         this.ampTarget.innerText = '--'
       }
     }, 1000)
@@ -58,5 +73,10 @@ export default class extends Controller {
     if (this.mpRegenTimer) {
       clearInterval(this.mpRegenTimer)
     }
+  }
+
+  afterReflex(element, reflex) {
+    super.afterReflex(element, reflex);
+    this.reflectAmp()
   }
 }

@@ -5,7 +5,7 @@ class RoomsController < ApplicationController
 
   def index
     @character_name = session[:character_name]
-    @room = Room.new(code: session[:room_code])
+    @room = Room.new(code: params[:room_code] || session[:room_code])
   end
 
   def show
@@ -17,8 +17,10 @@ class RoomsController < ApplicationController
     @character = @room.characters.find_by(name: session[:character_name])
     @character.update(last_ping_at: Time.zone.now)
     @characters = @room.characters.active + @room.characters.less_active
+    @characters -= [@character]
     @admin = @room.admin
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error(e)
     redirect_to root_path
   end
 
