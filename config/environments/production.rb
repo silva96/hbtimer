@@ -68,7 +68,7 @@ Rails.application.configure do
     'Cache-Control' => "public, max-age=#{2.days.to_i}"
   }
 
-  config.action_cable.url = "wss://hbtimer.herokuapp.com/cable"
+  config.action_cable.url = "wss://www.helbreathtimer.com/cable"
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

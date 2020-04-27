@@ -2,9 +2,11 @@
 
 class Character < ApplicationRecord
   belongs_to :room, inverse_of: :characters
-  after_update :broadcast_amp
+  after_update :amp_callback
+  after_create :amp_callback
 
   validates_uniqueness_of :name, scope: :room
+  validates_length_of :name, minimum: 3, maximum: 15
 
   scope :logged, -> { where(last_ping_at: 1.minute.ago..Time.zone.now) }
 
@@ -35,9 +37,21 @@ class Character < ApplicationRecord
     update(amp_timed_at: Time.zone.now)
   end
 
-  def broadcast_amp
+  def login
+    updates = { last_ping_at: Time.zone.now }
+    if amp_timed_at.nil? || amp_timed_at < 10.minutes.ago
+      updates[:amp_timed_at] = 121.seconds.ago
+    end
+    update(updates)
+  end
+
+  def amp_callback
     return unless saved_changes.keys.include? 'amp_timed_at'
 
+    broadcast_amp
+  end
+
+  def broadcast_amp
     RoomsChannel.broadcast_to(
       room.code, { character: name, amp: amp_time_left }
     )

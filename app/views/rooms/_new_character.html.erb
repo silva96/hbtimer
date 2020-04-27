@@ -1,0 +1,31 @@
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="field has-addons">
+      <div class="control fullwidth">
+        <input class="input is-fullwidth"
+               type="text"
+               data-target="room.newCharacter"
+               data-reflex="input->RoomReflex#suggest"
+               placeholder="Add a Player"
+               list="players">
+      </div>
+      <div class="control">
+        <button class="button is-success"
+                data-action="room#addFriend">
+          Friend
+        </button>
+      </div>
+      <div class="control">
+        <button class="button is-danger"
+                data-action="room#addEnemy">
+          Enemy
+        </button>
+      </div>
+    </div>
+    <datalist id="players">
+      <% @suggested_names.each do |suggestion| %>
+        <option value="<%= suggestion %>">
+      <% end %>
+    </datalist>
+  </div>
+</div>

@@ -13,12 +13,21 @@ class RoomsController < ApplicationController
       redirect_to root_path
       return
     end
+    if @suggestion_input
+      @suggested_names = Character.select(:name)
+                              .where('name LIKE ?', "%#{@suggestion_input}%")
+                              .distinct.pluck(:name)
+    else
+      @suggested_names = []
+    end
 
     @character = @room.characters.find_by(name: session[:character_name])
-    @character.update(last_ping_at: Time.zone.now)
+    @character.login
     @characters = @room.characters.active + @room.characters.less_active
+
     @characters -= [@character]
-    @admin = @room.admin
+    @admin_name = @room.admin&.name || '--'
+    @character.broadcast_amp unless @stimulus_reflex
   rescue StandardError => e
     Rails.logger.error(e)
     redirect_to root_path

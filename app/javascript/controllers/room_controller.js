@@ -3,7 +3,7 @@ import consumer from "../channels/consumer"
 
 
 export default class extends ApplicationController {
-  static targets = ['character']
+  static targets = ['character', 'newCharacter']
 
   processData(data) {
     const character = this.characterTargets.find((char)=> {
@@ -11,6 +11,9 @@ export default class extends ApplicationController {
     })
     if (character) {
       character.innerText = data.amp.toString()
+    }
+    else {
+      this.stimulate('RoomReflex#repaint')
     }
   }
 
@@ -30,7 +33,7 @@ export default class extends ApplicationController {
         $this.processData(data)
       }
     });
-    this.pingInterval = setInterval(()=> { this.ping() }, 5000)
+    this.pingInterval = setInterval(()=> { this.ping() }, 20000)
   }
 
   disconnect() {
@@ -41,5 +44,23 @@ export default class extends ApplicationController {
     this.subscription.send({
       character_id:  this.data.get('characterId')
     })
+  }
+
+  addFriend() {
+    const data = {
+      name: this.newCharacterTarget.value,
+      room_id: this.data.get('roomId'),
+      enemy: false
+    }
+    this.stimulate('RoomReflex#add', data)
+  }
+
+  addEnemy() {
+    const data = {
+      name: this.newCharacterTarget.value,
+      room_id: this.data.get('roomId'),
+      enemy: true
+    }
+    this.stimulate('RoomReflex#add', data)
   }
 }
