@@ -3,7 +3,7 @@
 class RoomReflex < ApplicationReflex
 
   def suggest
-    @suggestion_input = element[:value]
+    @suggestion_input = element[:value] if element[:value].present?
   end
 
   def add(data)

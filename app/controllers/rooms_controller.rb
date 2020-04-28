@@ -15,7 +15,8 @@ class RoomsController < ApplicationController
     end
     if @suggestion_input
       @suggested_names = Character.select(:name)
-                              .where('name LIKE ?', "%#{@suggestion_input}%")
+                              .where('name ILIKE ?', "%#{@suggestion_input}%")
+                              .limit(10)
                               .distinct.pluck(:name)
     else
       @suggested_names = []

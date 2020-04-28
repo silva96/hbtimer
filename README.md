@@ -6,6 +6,7 @@ application up and running.
 Things you may want to cover:
 
 `export RUBYOPT='-W:no-deprecated'`
+`Room.includes(:characters).sort_by {|r| r.characters.size }.reverse!.each {|r| puts "#{r.code} => #{r.characters.size}"}`
 
 * Ruby version
 
