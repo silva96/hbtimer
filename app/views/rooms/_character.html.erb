@@ -8,12 +8,12 @@
   <div class="column is-two-fifths is-clipped has-text-<%= character.enemy? ? 'danger' : 'success' %>">
     <p class="name" data-target="character.name"><%= character.name %></p>
   </div>
-  <div class="column amp has-text-centered is-fullheight"
+  <div class="column amp player-amp-btn has-text-centered is-fullheight"
        data-reflex="click->CharacterReflex#amp"
        data-character-id="<%= character.id %>">
     <p class="actions">AMP</p>
   </div>
-  <div class="column has-background-danger has-text-centered is-fullheight"
+  <div class="column player-cancel-btn has-background-danger has-text-centered is-fullheight"
        data-reflex="click->CharacterReflex#cancel"
        data-character-id="<%= character.id %>">
     <p class="actions">X</p>
