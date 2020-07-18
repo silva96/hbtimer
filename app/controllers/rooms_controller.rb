@@ -10,17 +10,21 @@ class RoomsController < ApplicationController
 
   def show
     if session[:character_name].nil? || session[:room_code].nil?
-      redirect_to root_path
+      if @stimulus_reflex
+        head :ok
+      else
+        redirect_to root_path
+      end
       return
     end
-    if @suggestion_input
-      @suggested_names = Character.select(:name)
-                              .where('name ILIKE ?', "%#{@suggestion_input}%")
-                              .limit(10)
-                              .distinct.pluck(:name)
-    else
-      @suggested_names = []
-    end
+    @suggested_names = if @suggestion_input
+                         Character.select(:name)
+                                  .where('name ILIKE ?', "%#{@suggestion_input}%")
+                                  .limit(10)
+                                  .distinct.pluck(:name)
+                       else
+                         []
+                       end
 
     @character = @room.characters.find_by(name: session[:character_name])
     @character.login
